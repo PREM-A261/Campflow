@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "348013360702",
+    "project_id": "campflow-4a389",
+    "storage_bucket": "campflow-4a389.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:348013360702:android:f2474522f251907ecc436f",
+        "android_client_info": {
+          "package_name": "com.example.cafeteria"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCL3d70qNFcDjWezHnL-XXf15A6J89rg-M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

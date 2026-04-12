@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@android:color/white"
+    android:padding="16dp">
+
+    <!-- 🔥 Heading -->
+    <TextView
+        android:id="@+id/cartHeading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="My Cart"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@color/orange"
+        android:layout_marginBottom="12dp"/>
+
+    <!-- 🔥 Cart Items -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/cartRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"/>
+
+    <!-- 🔥 Bottom Buy Now Button -->
+    <Button
+        android:id="@+id/btnBuyNowCart"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:text="Buy Now"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:textColor="@android:color/white"
+        android:backgroundTint="@color/orange"
+        android:layout_marginTop="10dp"/>
+
+</LinearLayout>
