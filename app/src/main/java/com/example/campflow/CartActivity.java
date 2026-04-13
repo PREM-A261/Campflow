@@ -1,5 +1,6 @@
 package com.example.campflow;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,6 +12,8 @@ import android.app.Dialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 public class CartActivity extends AppCompatActivity {
 
@@ -43,6 +46,17 @@ public class CartActivity extends AppCompatActivity {
                 return;
             }
 
+            if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+                Toast.makeText(this, "Please login first!", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this, LoginActivity.class));
+                return;
+            }
+
+            // Go to Payment Activity
+            startActivity(new Intent(this, PaymentActivity.class));
+            
+            /* 
+            // Previous logic for dialog confirmation - keeping it commented if needed later
             // Calculate total price
             int total = 0;
             for (FoodItem item : CartManager.getInstance().getCartItems()) {
@@ -55,6 +69,7 @@ public class CartActivity extends AppCompatActivity {
             CartManager.getInstance().getCartItems().clear();
             cartAdapter.notifyDataSetChanged();
             updateBuyButtonVisibility();
+            */
         });
     }
 

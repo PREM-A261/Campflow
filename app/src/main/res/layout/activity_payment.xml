@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Payment Method"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_marginBottom="24dp"/>
+
+        <!-- UPI / QR Code Section -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardUPI"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="2dp"
+            android:layout_marginBottom="16dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="@color/light_gray">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <RadioButton
+                    android:id="@+id/rbUPI"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="UPI / QR Code"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
+
+                <LinearLayout
+                    android:id="@+id/layoutQR"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    android:layout_marginTop="12dp">
+
+                    <ImageView
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        android:src="@android:drawable/ic_menu_gallery"
+                        android:contentDescription="QR Code Placeholder"
+                        app:tint="@color/light_gray"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Scan QR to Pay"
+                        android:layout_marginTop="8dp"/>
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Card Details Section -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="2dp"
+            android:layout_marginBottom="16dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="@color/light_gray">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <RadioButton
+                    android:id="@+id/rbCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Credit / Debit Card"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
+
+                <LinearLayout
+                    android:id="@+id/layoutCardDetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    android:layout_marginTop="12dp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Card Number"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="8dp">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="Expiry (MM/YY)"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="date"/>
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="8dp"
+                            android:hint="CVV"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="numberPassword"
+                                android:maxLength="3"/>
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Net Banking Section -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardNetBanking"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="2dp"
+            android:layout_marginBottom="24dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="@color/light_gray">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <RadioButton
+                    android:id="@+id/rbNetBanking"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Net Banking"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
+
+                <Spinner
+                    android:id="@+id/spinnerBanks"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:layout_marginTop="12dp"
+                    android:entries="@array/bank_names"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <Button
+            android:id="@+id/btnPayNow"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="Pay Now"
+            android:backgroundTint="@color/orange"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
+</ScrollView>

@@ -28,7 +28,6 @@
             android:text="CAMPFLOW"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:fontFamily="@font/campflow_font"
             android:letterSpacing="0.06"
             android:layout_gravity="start|center_vertical"
             android:textColor="#FF8F00"

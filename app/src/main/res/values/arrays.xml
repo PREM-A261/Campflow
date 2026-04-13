@@ -1,21 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <array name="com_google_android_gms_fonts_certs">
-        <item>@array/com_google_android_gms_fonts_certs_dev</item>
-    </array>
-
-    <array name="com_google_android_gms_fonts_certs_dev">
-        <item>
-            MIIDdzCCAl+gAwIBAgIEbmh5lzANBgkqhkiG9w0BAQsFADBvMQswCQYDVQQGEwJV
-            UzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNTW91bnRhaW4gVmlldzEW
-            MBQGA1UEChMNR29vZ2xlIEluYy4xEzARBgNVBAMTCkdvb2dsZSBDQTAeFw0xNTAx
-            MDEwMDAwMDBaFw0yNTAxMDEwMDAwMDBaMG8xCzAJBgNVBAYTAlVTMRMwEQYDVQQI
-            EwpDYWxpZm9ybmlhMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRYwFAYDVQQKEw1H
-            b29nbGUgSW5jLjETMBEGA1UEAxMKR29vZ2xlIENBMIIBIjANBgkqhkiG9w0BAQEF
-            AAOCAQ8AMIIBCgKCAQEApMAvFpU0UBKbjsggqVkpXBJgp7wa9u0edPFpKnzGWx/+
-            LZ8J9ZhDJW60AgMBAAGjUDBOMB0GA1UdDgQWBBSB9Ec/WWEDuJeayQMZT6ZX0hgq
-            PjAfBgNVHSMEGDAWgBSB9Ec/WWEDuJeayQMZT6ZX0hgqPjAMBgNVHRMEBTADAQH/
-            MA0GCSqGSIb3DQEBCwUAA4IBAQBM9GZt
-        </item>
-    </array>
+    <string-array name="bank_names">
+        <item>Select Bank</item>
+        <item>State Bank of India</item>
+        <item>HDFC Bank</item>
+        <item>ICICI Bank</item>
+        <item>Axis Bank</item>
+        <item>Kotak Mahindra Bank</item>
+    </string-array>
 </resources>

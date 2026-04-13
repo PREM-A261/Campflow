@@ -10,6 +10,8 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class ProductDetailActivity extends AppCompatActivity {
 
     ImageView image;
@@ -58,8 +60,13 @@ public class ProductDetailActivity extends AppCompatActivity {
             Toast.makeText(this, "Added to cart!", Toast.LENGTH_SHORT).show();
         });
 
-        buyNow.setOnClickListener(v ->
-                Toast.makeText(this, "Proceeding to payment...", Toast.LENGTH_SHORT).show()
-        );
+        buyNow.setOnClickListener(v -> {
+            if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+                Toast.makeText(this, "Please login first!", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this, LoginActivity.class));
+            } else {
+                startActivity(new Intent(this, PaymentActivity.class));
+            }
+        });
     }
 }
