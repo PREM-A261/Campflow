@@ -57,7 +57,7 @@
                     <ImageView
                         android:layout_width="200dp"
                         android:layout_height="200dp"
-                        android:src="@android:drawable/ic_menu_gallery"
+                        android:src="@drawable/qr"
                         android:contentDescription="QR Code Placeholder"
                         app:tint="@color/light_gray"/>
 
