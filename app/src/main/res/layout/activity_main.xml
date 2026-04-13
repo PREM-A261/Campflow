@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <!-- ===================== PROFESSIONAL TOOLBAR ===================== -->
 
@@ -77,14 +78,16 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@color/white">
 
         <com.google.android.material.search.SearchBar
             android:id="@+id/searchBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Find your favorite bites..."
-            app:backgroundTint="@color/white"/>
+            app:subtitleTextColor="@color/black"
+            app:backgroundTint="@color/light_gray"/>
     </com.google.android.material.appbar.AppBarLayout>
 
     <!-- ===================== MAIN CONTENT ===================== -->
@@ -160,6 +163,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:elevation="8dp"
+        android:background="@color/white"
+
         app:menu="@menu/bottom_menu"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
