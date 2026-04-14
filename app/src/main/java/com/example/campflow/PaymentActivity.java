@@ -1,5 +1,6 @@
 package com.example.campflow;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -60,8 +61,9 @@ public class PaymentActivity extends AppCompatActivity {
                 // Example: check if card fields are filled
             }
 
-            Toast.makeText(this, "Payment Successful!", Toast.LENGTH_LONG).show();
-            // Clear cart if needed, or navigate to order success
+            // Navigate to SuccessActivity instead of just showing a Toast
+            Intent intent = new Intent(PaymentActivity.this, SuccessActivity.class);
+            startActivity(intent);
             finish();
         });
     }
