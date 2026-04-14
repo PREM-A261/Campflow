@@ -10,6 +10,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -151,15 +152,18 @@ public class MainActivity extends AppCompatActivity {
 
         RecyclerView foodRecycler = findViewById(R.id.foodRecycler);
         List<FoodItem> foodList = new ArrayList<>();
-        foodList.add(new FoodItem("Spicy Noodles", "150", R.drawable.noodle));
-        foodList.add(new FoodItem("Pav Bhaji", "120", R.drawable.pav));
-        foodList.add(new FoodItem("Sandwich", "100", R.drawable.sandwich));
-        foodList.add(new FoodItem("Dosa", "90", R.drawable.dosa));
-        
+        foodList.add(new FoodItem("Spicy Noodles", "150", R.drawable.spicy_noodles));
+        foodList.add(new FoodItem("Pav Bhaji", "120", R.drawable.pav_bhaji));
+        foodList.add(new FoodItem("Veg Grill Sandwich", "100", R.drawable.veg_grill));
+        foodList.add(new FoodItem("Masala Dosa", "90", R.drawable.masala_dosa));
         foodList.add(new FoodItem("Paneer Pizza", "200", R.drawable.paneer_pizza));
         foodList.add(new FoodItem("Burger", "110", R.drawable.burger));
-        foodList.add(new FoodItem("Chocolate Cake", "180", R.drawable.desseret));
-        foodList.add(new FoodItem("Fresh Juice", "50", R.drawable.drink));
+        foodList.add(new FoodItem("Chocolate Cake", "180", R.drawable.chocolate_cake));
+        foodList.add(new FoodItem("Fresh Juice", "50", R.drawable.fresh_juice));
+        foodList.add(new FoodItem("Hakha Noodles", "140", R.drawable.hakha_noodles));
+        foodList.add(new FoodItem("Samosa", "20", R.drawable.samosa));
+        foodList.add(new FoodItem("Misal Pav", "80", R.drawable.misal_pav));
+        foodList.add(new FoodItem("Idli Samber", "60", R.drawable.idli_samber));
 
         foodAdapter = new FoodAdapter(foodList);
         foodRecycler.setLayoutManager(new GridLayoutManager(this, 2));
@@ -169,9 +173,10 @@ public class MainActivity extends AppCompatActivity {
         searchView = findViewById(R.id.searchView);
         
         searchView.getEditText().setOnEditorActionListener((v, actionId, event) -> {
-            searchBar.setText(searchView.getText());
+            String query = searchView.getText().toString();
+            searchBar.setText(query);
             searchView.hide();
-            foodAdapter.filter(searchView.getText().toString());
+            foodAdapter.filter(query);
             return false;
         });
         
@@ -184,6 +189,15 @@ public class MainActivity extends AppCompatActivity {
             }
             @Override
             public void afterTextChanged(android.text.Editable s) {}
+        });
+
+        ImageButton menuButton = findViewById(R.id.menuButton);
+        menuButton.setOnClickListener(v -> {
+            if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                drawerLayout.closeDrawer(GravityCompat.START);
+            } else {
+                drawerLayout.openDrawer(GravityCompat.START);
+            }
         });
 
         BottomNavigationView bottomNav = findViewById(R.id.bottomNav);

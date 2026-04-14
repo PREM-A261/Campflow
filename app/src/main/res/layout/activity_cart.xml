@@ -15,27 +15,55 @@
         android:text="My Cart"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:textColor="@color/orange"
+        android:textColor="#FF8F00"
         android:layout_marginBottom="12dp"/>
 
     <!-- 🔥 Cart Items -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/cartRecycler"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:clipToPadding="false"/>
+        android:layout_weight="1">
 
-    <!-- 🔥 Bottom Buy Now Button -->
-    <Button
-        android:id="@+id/btnBuyNowCart"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/cartRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"/>
+
+        <TextView
+            android:id="@+id/emptyCartText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Nothing in cart"
+            android:textSize="18sp"
+            android:visibility="gone" />
+    </FrameLayout>
+
+    <!-- 🔥 Bottom Buttons -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:text="Buy Now"
-        android:textStyle="bold"
-        android:textSize="16sp"
-        android:textColor="@android:color/white"
-        android:backgroundTint="@color/orange"
-        android:layout_marginTop="10dp"/>
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btnBuyNowCart"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:text="Buy Now"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="@android:color/white"
+            android:backgroundTint="@color/orange"
+            android:layout_marginTop="10dp"/>
+
+        <Button
+            android:id="@+id/btnBackCart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Go Back"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/orange" />
+    </LinearLayout>
 
 </LinearLayout>

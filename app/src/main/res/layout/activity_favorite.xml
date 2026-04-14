@@ -7,23 +7,39 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:layout_width="124dp"
-        android:layout_height="48dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:text="Favourites"
-        android:textColor="@color/orange"
+        android:textColor="#FF8F00"
         android:textSize="22sp"
         android:textStyle="bold" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/favoriteRecyclerView"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="622dp" />
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/favoriteRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/emptyFavoriteText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Nothing in favorites"
+            android:textSize="18sp"
+            android:visibility="gone" />
+    </FrameLayout>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnBackFavorite"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/orange"
         android:text="Go Back" />
 
 </LinearLayout>
