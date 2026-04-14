@@ -10,14 +10,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder> {
 
     private List<FoodItem> foodList;
+    private List<FoodItem> foodListFull;
 
     public FoodAdapter(List<FoodItem> foodList) {
         this.foodList = foodList;
+        this.foodListFull = new ArrayList<>(foodList);
     }
 
     public static class FoodViewHolder extends RecyclerView.ViewHolder {
@@ -88,5 +91,20 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
     @Override
     public int getItemCount() {
         return foodList.size();
+    }
+
+    public void filter(String text) {
+        foodList.clear();
+        if (text.isEmpty()) {
+            foodList.addAll(foodListFull);
+        } else {
+            text = text.toLowerCase();
+            for (FoodItem item : foodListFull) {
+                if (item.getName().toLowerCase().contains(text)) {
+                    foodList.add(item);
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
 }

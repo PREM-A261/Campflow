@@ -184,6 +184,24 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Pickup Time Slot"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_marginBottom="8dp"/>
+
+        <Spinner
+            android:id="@+id/spinnerTimeSlots"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/circle_bg"
+            android:padding="8dp"
+            android:entries="@array/time_slots"/>
+
         <Button
             android:id="@+id/btnPayNow"
             android:layout_width="match_parent"

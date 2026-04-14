@@ -17,7 +17,7 @@ public class PaymentActivity extends AppCompatActivity {
 
     private RadioButton rbUPI, rbCard, rbNetBanking;
     private LinearLayout layoutQR, layoutCardDetails;
-    private Spinner spinnerBanks;
+    private Spinner spinnerBanks, spinnerTimeSlots;
     private Button btnPayNow;
     private MaterialCardView cardUPI, cardCard, cardNetBanking;
 
@@ -33,6 +33,7 @@ public class PaymentActivity extends AppCompatActivity {
         layoutQR = findViewById(R.id.layoutQR);
         layoutCardDetails = findViewById(R.id.layoutCardDetails);
         spinnerBanks = findViewById(R.id.spinnerBanks);
+        spinnerTimeSlots = findViewById(R.id.spinnerTimeSlots);
 
         cardUPI = findViewById(R.id.cardUPI);
         cardCard = findViewById(R.id.cardCard);
@@ -53,6 +54,11 @@ public class PaymentActivity extends AppCompatActivity {
         btnPayNow.setOnClickListener(v -> {
             if (!rbUPI.isChecked() && !rbCard.isChecked() && !rbNetBanking.isChecked()) {
                 Toast.makeText(this, "Please select a payment method", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (spinnerTimeSlots.getSelectedItemPosition() == 0) {
+                Toast.makeText(this, "Please select a pickup time slot", Toast.LENGTH_SHORT).show();
                 return;
             }
             

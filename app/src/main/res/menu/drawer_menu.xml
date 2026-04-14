@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/home_24px"
+            android:title="Home" />
+        <item
+            android:id="@+id/nav_orders"
+            android:icon="@drawable/shopping_cart_24px"
+            android:title="My Orders" />
+        <item
+            android:id="@+id/nav_payment"
+            android:icon="@drawable/ic_success_check"
+            android:title="Payment Method" />
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/account_circle_24px"
+            android:title="Settings" />
+    </group>
+
+    <item android:title="Preferences">
+        <menu>
+            <item
+                android:id="@+id/nav_dark_mode"
+                android:title="Dark Mode"
+                app:actionViewClass="android.widget.Switch"
+                xmlns:app="http://schemas.android.com/apk/res-auto" />
+        </menu>
+    </item>
+
+    <item android:title="Account">
+        <menu>
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/account_circle_24px"
+                android:title="Sign Out" />
+        </menu>
+    </item>
+</menu>

@@ -13,6 +13,9 @@
         android:theme="@style/Theme.Campflow"
         tools:targetApi="31">
         <activity
+            android:name=".CategoryItemsActivity"
+            android:exported="false" />
+        <activity
             android:name=".SuccessActivity"
             android:exported="false" />
         <activity
@@ -35,6 +38,12 @@
             android:exported="false" />
         <activity
             android:name=".ProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".OrderActivity"
+            android:exported="false" />
+        <activity
+            android:name=".OrderDetailActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

@@ -1,12 +1,12 @@
 package com.example.campflow;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,12 +39,12 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         holder.categoryName.setText(category.getName());
         holder.categoryImage.setImageResource(category.getImage());
 
-        // Click Listener
-        holder.itemView.setOnClickListener(v ->
-                Toast.makeText(context,
-                        category.getName() + " Clicked",
-                        Toast.LENGTH_SHORT).show()
-        );
+        // Updated Click Listener to navigate to CategoryItemsActivity
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, CategoryItemsActivity.class);
+            intent.putExtra("categoryName", category.getName());
+            context.startActivity(intent);
+        });
     }
 
     @Override
