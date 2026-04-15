@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,6 +31,7 @@ import java.util.Map;
 
 public class ProfileActivity extends AppCompatActivity {
 
+    private static final String TAG = "ProfileActivity";
     private EditText editName, editEmail, editMobile, editUniversityId;
     private Button btnUpdate, btnLogout;
     private View btnEditProfile;
@@ -45,7 +47,6 @@ public class ProfileActivity extends AppCompatActivity {
                 if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                     Uri imageUri = result.getData().getData();
                     profileImage.setImageURI(imageUri);
-                    // In a real app, you would upload this to Firebase Storage
                     saveProfilePictureUri(imageUri.toString());
                 }
             }
@@ -61,6 +62,7 @@ public class ProfileActivity extends AppCompatActivity {
         
         FirebaseUser user = mAuth.getCurrentUser();
         if (user == null) {
+            Toast.makeText(this, "Session expired, please login", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, LoginActivity.class));
             finish();
             return;
@@ -78,7 +80,15 @@ public class ProfileActivity extends AppCompatActivity {
         btnUpdate = findViewById(R.id.btnUpdate);
         btnLogout = findViewById(R.id.btnLogout);
 
-        // Load User Data
+        // Pre-fill with Auth data as immediate fallback
+        if (user.getDisplayName() != null && !user.getDisplayName().isEmpty()) {
+            editName.setText(user.getDisplayName());
+        }
+        if (user.getEmail() != null) {
+            editEmail.setText(user.getEmail());
+        }
+
+        // Load User Data from Database
         loadUserData();
 
         // Edit Profile Click
@@ -87,24 +97,29 @@ public class ProfileActivity extends AppCompatActivity {
         // Update Button Click
         btnUpdate.setOnClickListener(v -> updateProfile());
 
-        // Change Profile Picture
+        // Change Profile Picture (Only in edit mode)
         profileImage.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            pickImageLauncher.launch(intent);
+            if (btnUpdate.getVisibility() == View.VISIBLE) {
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                pickImageLauncher.launch(intent);
+            } else {
+                Toast.makeText(this, "Click 'Edit Profile' to change picture", Toast.LENGTH_SHORT).show();
+            }
         });
-
-        // Payment Methods Click
-        findViewById(R.id.sectionPayment).setOnClickListener(v -> showPaymentDialog());
-
-        // Rate Us Click
-        findViewById(R.id.sectionRateUs).setOnClickListener(v -> showRatingDialog());
 
         // Logout
         btnLogout.setOnClickListener(v -> {
             mAuth.signOut();
-            startActivity(new Intent(ProfileActivity.this, LoginActivity.class));
-            finishAffinity();
+            Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
         });
+
+        // Other sections
+        findViewById(R.id.sectionPayment).setOnClickListener(v -> showPaymentDialog());
+        findViewById(R.id.sectionRateUs).setOnClickListener(v -> showRatingDialog());
     }
 
     private void loadUserData() {
@@ -112,28 +127,47 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
-                    editName.setText(snapshot.child("name").getValue(String.class));
-                    editEmail.setText(snapshot.child("email").getValue(String.class));
-                    editMobile.setText(snapshot.child("mobile").getValue(String.class));
-                    editUniversityId.setText(snapshot.child("universityId").getValue(String.class));
-                    
+                    String name = snapshot.child("name").getValue(String.class);
+                    String email = snapshot.child("email").getValue(String.class);
+                    String mobile = snapshot.child("mobile").getValue(String.class);
+                    String universityId = snapshot.child("universityId").getValue(String.class);
                     String photoUrl = snapshot.child("profilePic").getValue(String.class);
+                    
+                    if (name != null) editName.setText(name);
+                    if (email != null) editEmail.setText(email);
+                    if (mobile != null) editMobile.setText(mobile);
+                    if (universityId != null) editUniversityId.setText(universityId);
+                    
                     if (photoUrl != null && !photoUrl.isEmpty()) {
-                        profileImage.setImageURI(Uri.parse(photoUrl));
+                        try {
+                            profileImage.setImageURI(Uri.parse(photoUrl));
+                        } catch (Exception e) {
+                            Log.e(TAG, "Failed to load image URI", e);
+                        }
+                    }
+                } else {
+                    Log.d(TAG, "No user data in database for ID: " + userId);
+                    // If no data exists yet (for older accounts), initialize it with auth email
+                    FirebaseUser user = mAuth.getCurrentUser();
+                    if (user != null) {
+                        Map<String, Object> initialData = new HashMap<>();
+                        initialData.put("email", user.getEmail());
+                        initialData.put("name", user.getDisplayName() != null ? user.getDisplayName() : "");
+                        mDatabase.child("users").child(userId).updateChildren(initialData);
                     }
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(ProfileActivity.this, "Failed to load profile", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "Database read cancelled: " + error.getMessage());
+                Toast.makeText(ProfileActivity.this, "Check internet connection", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void toggleEditMode(boolean enabled) {
         editName.setEnabled(enabled);
-        editEmail.setEnabled(enabled);
         editMobile.setEnabled(enabled);
         editUniversityId.setEnabled(enabled);
         
@@ -143,58 +177,65 @@ public class ProfileActivity extends AppCompatActivity {
         
         if (enabled) {
             editName.requestFocus();
+            Toast.makeText(this, "You can now edit your details", Toast.LENGTH_SHORT).show();
         }
     }
 
     private void updateProfile() {
         String name = editName.getText().toString().trim();
-        String email = editEmail.getText().toString().trim();
         String mobile = editMobile.getText().toString().trim();
         String universityId = editUniversityId.getText().toString().trim();
 
+        if (name.isEmpty()) {
+            editName.setError("Name is required");
+            return;
+        }
+
         Map<String, Object> updates = new HashMap<>();
         updates.put("name", name);
-        updates.put("email", email);
         updates.put("mobile", mobile);
         updates.put("universityId", universityId);
 
         mDatabase.child("users").child(userId).updateChildren(updates)
                 .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(this, "Profile Updated", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Profile updated successfully!", Toast.LENGTH_SHORT).show();
                     toggleEditMode(false);
                 })
-                .addOnFailureListener(e -> Toast.makeText(this, "Update Failed", Toast.LENGTH_SHORT).show());
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Update failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "Database update error", e);
+                });
     }
 
     private void saveProfilePictureUri(String uri) {
-        mDatabase.child("users").child(userId).child("profilePic").setValue(uri);
+        mDatabase.child("users").child(userId).child("profilePic").setValue(uri)
+                .addOnFailureListener(e -> Log.e(TAG, "Failed to save profile pic URI", e));
     }
 
     private void showPaymentDialog() {
         String[] payments = {"Google Pay", "PhonePe", "Credit/Debit Card", "Net Banking"};
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Choose Payment Method");
-        builder.setItems(payments, (dialog, which) -> {
-            Toast.makeText(this, "Selected: " + payments[which], Toast.LENGTH_SHORT).show();
-        });
-        builder.show();
+        new AlertDialog.Builder(this)
+                .setTitle("Select Payment Method")
+                .setItems(payments, (dialog, which) -> Toast.makeText(this, "Selected: " + payments[which], Toast.LENGTH_SHORT).show())
+                .show();
     }
 
     private void showRatingDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_rating, null);
-        builder.setView(dialogView);
-        
         RatingBar ratingBar = dialogView.findViewById(R.id.ratingBar);
-        AlertDialog dialog = builder.create();
+        
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setView(dialogView)
+                .create();
 
         dialogView.findViewById(R.id.btnSubmitRating).setOnClickListener(v -> {
             float rating = ratingBar.getRating();
             mDatabase.child("ratings").child(userId).setValue(rating)
                     .addOnSuccessListener(aVoid -> {
-                        Toast.makeText(this, "Thank you for rating!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Thank you for your " + rating + " star rating!", Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
-                    });
+                    })
+                    .addOnFailureListener(e -> Toast.makeText(this, "Failed to submit rating", Toast.LENGTH_SHORT).show());
         });
         
         dialog.show();
